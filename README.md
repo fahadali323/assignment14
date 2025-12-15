@@ -1,264 +1,307 @@
-# 📦 Project Setup
+# 📐 FastAPI Calculator Application
+
+A full-stack **FastAPI** application that provides:
+- User authentication (registration & login)
+- Secure JWT-based authorization
+- CRUD operations for calculator records
+- PostgreSQL database integration
+- Redis-backed token blacklist (async)
+- Automated testing (unit, integration, E2E)
+- Dockerized deployment
+- Playwright end-to-end tests
 
 ---
 
-# 🧩 1. Install Homebrew (Mac Only)
+## Screenshots
+1. GitHub Actions Workflow: Screenshot showing a successful run of the GitHub Actions workflow.
+![alt text](./images/image.png)
 
-> Skip this step if you're on Windows.
+2. Docker Hub Deployment: Screenshot demonstrating the Docker image has been successfully pushed to Docker Hub.
+![alt text](./images/image-1.png)
 
-Homebrew is a package manager for macOS.  
-You’ll use it to easily install Git, Python, Docker, etc.
+3. Application Functionality: Screenshots of the front-end performing BREAD
+![alt text](./images/image-2.png)
+![alt text](./images/image-3.png)
+![alt text](./images/image-4.png)
+![alt text](./images/image-5.png)
+![alt text](./images/image-6.png)
+Deletion: 
+ ![alt text](./images/image-7.png)
+ ![alt text](./images/image-8.png)
+Edit:
+ ![alt text](./images/image-9.png)
+ ![alt text](./images/image-10.png)
+ ![alt text](./images/image-11.png)
 
-**Install Homebrew:**
+## 🧱 Tech Stack
 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-**Verify Homebrew:**
-
-```bash
-brew --version
-```
-
-If you see a version number, you're good to go.
-
----
-
-# 🧩 2. Install and Configure Git
-
-## Install Git
-
-- **MacOS (using Homebrew)**
-
-```bash
-brew install git
-```
-
-- **Windows**
-
-Download and install [Git for Windows](https://git-scm.com/download/win).  
-Accept the default options during installation.
-
-**Verify Git:**
-
-```bash
-git --version
-```
+- **Backend:** FastAPI
+- **Database:** PostgreSQL
+- **ORM:** SQLAlchemy
+- **Auth:** JWT (python-jose, passlib)
+- **Cache / Blacklist:** Redis (async)
+- **Testing:** pytest, Playwright
+- **Containerization:** Docker & Docker Compose
+- **Python:** 3.10 / 3.12 compatible
 
 ---
 
-## Configure Git Globals
+## 📁 Project Structure
 
-Set your name and email so Git tracks your commits properly:
-
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "your_email@example.com"
 ```
-
-Confirm the settings:
-
-```bash
-git config --list
-```
-
----
-
-## Generate SSH Keys and Connect to GitHub
-
-> Only do this once per machine.
-
-1. Generate a new SSH key:
-
-```bash
-ssh-keygen -t ed25519 -C "your_email@example.com"
-```
-
-(Press Enter at all prompts.)
-
-2. Start the SSH agent:
-
-```bash
-eval "$(ssh-agent -s)"
-```
-
-3. Add the SSH private key to the agent:
-
-```bash
-ssh-add ~/.ssh/id_ed25519
-```
-
-4. Copy your SSH public key:
-
-- **Mac/Linux:**
-
-```bash
-cat ~/.ssh/id_ed25519.pub | pbcopy
-```
-
-- **Windows (Git Bash):**
-
-```bash
-cat ~/.ssh/id_ed25519.pub | clip
-```
-
-5. Add the key to your GitHub account:
-   - Go to [GitHub SSH Settings](https://github.com/settings/keys)
-   - Click **New SSH Key**, paste the key, save.
-
-6. Test the connection:
-
-```bash
-ssh -T git@github.com
-```
-
-You should see a success message.
-
----
-
-# 🧩 3. Clone the Repository
-
-Now you can safely clone the course project:
-
-```bash
-git clone <repository-url>
-cd <repository-directory>
+app/
+├── auth/               # Authentication, JWT, Redis blacklist
+├── core/               # App configuration & settings
+├── database.py         # Database engine & session
+├── database_init.py    # Initial DB setup
+├── main.py             # FastAPI app & routes
+├── models/             # SQLAlchemy models
+├── operations/         # Calculator logic
+├── schemas/            # Pydantic schemas
+tests/
+├── unit/               # Unit tests
+├── integration/        # Integration tests
+├── e2e/                # End-to-end tests
+Dockerfile
+docker-compose.yml
+requirements.txt
+README.md
 ```
 
 ---
 
-# 🛠️ 4. Install Python 3.10+
+## 🚀 Setup & Installation
 
-## Install Python
+### ✅ Prerequisites
 
-- **MacOS (Homebrew)**
+Ensure the following are installed:
+
+- Python 3.10+
+- Docker & Docker Compose
+- PostgreSQL
+- Redis
+- Node.js (required for Playwright browsers)
+
+---
+
+## 🐍 Local Setup (Without Docker)
+
+### 1️⃣ Clone the repository
 
 ```bash
-brew install python
-```
-
-- **Windows**
-
-Download and install [Python for Windows](https://www.python.org/downloads/).  
-✅ Make sure you **check the box** `Add Python to PATH` during setup.
-
-**Verify Python:**
-
-```bash
-python3 --version
-```
-or
-```bash
-python --version
+git clone https://github.com/yourusername/fastapi-calculator.git
+cd fastapi-calculator
 ```
 
 ---
 
-## Create and Activate a Virtual Environment
-
-(Optional but recommended)
+### 2️⃣ Create and activate a virtual environment
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate   # Mac/Linux
-venv\Scripts\activate.bat  # Windows
+source venv/bin/activate
 ```
 
-### Install Required Packages
+---
+
+### 3️⃣ Install dependencies
 
 ```bash
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
 ---
 
-# 🐳 5. (Optional) Docker Setup
-
-> Skip if Docker isn't used in this module.
-
-## Install Docker
-
-- [Install Docker Desktop for Mac](https://www.docker.com/products/docker-desktop/)
-- [Install Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/)
-
-## Build Docker Image
+### 4️⃣ Install Playwright browsers
 
 ```bash
-docker build -t <image-name> .
-```
-
-## Run Docker Container
-
-```bash
-docker run -it --rm <image-name>
+playwright install chromium
 ```
 
 ---
 
-# 🚀 6. Running the Project
+### 5️⃣ Configure environment variables
 
-- **Without Docker**:
+Create a `.env` file in the project root:
 
-```bash
-python main.py
-```
-
-(or update this if the main script is different.)
-
-- **With Docker**:
-
-```bash
-docker run -it --rm <image-name>
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/fastapi_db
+REDIS_URL=redis://localhost:6379/0
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 
 ---
 
-# 📝 7. Submission Instructions
-
-After finishing your work:
+### 6️⃣ Start PostgreSQL & Redis
 
 ```bash
-git add .
-git commit -m "Complete Module X"
-git push origin main
+sudo service postgresql start
+redis-server
 ```
 
-Then submit the GitHub repository link as instructed.
+---
+
+### 7️⃣ Run the application
+
+```bash
+uvicorn app.main:app --reload
+```
 
 ---
 
-# 🔥 Useful Commands Cheat Sheet
+## 🐳 Docker Setup (Recommended)
 
-| Action                         | Command                                          |
-| ------------------------------- | ------------------------------------------------ |
-| Install Homebrew (Mac)          | `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` |
-| Install Git                     | `brew install git` or Git for Windows installer |
-| Configure Git Global Username  | `git config --global user.name "Your Name"`      |
-| Configure Git Global Email     | `git config --global user.email "you@example.com"` |
-| Clone Repository                | `git clone <repo-url>`                          |
-| Create Virtual Environment     | `python3 -m venv venv`                           |
-| Activate Virtual Environment   | `source venv/bin/activate` / `venv\Scripts\activate.bat` |
-| Install Python Packages        | `pip install -r requirements.txt`               |
-| Build Docker Image              | `docker build -t <image-name> .`                |
-| Run Docker Container            | `docker run -it --rm <image-name>`               |
-| Push Code to GitHub             | `git add . && git commit -m "message" && git push` |
+### 1️⃣ Build and start containers
+
+```bash
+docker compose up --build
+```
 
 ---
 
-# 📋 Notes
+### 2️⃣ Stop containers
 
-- Install **Homebrew** first on Mac.
-- Install and configure **Git** and **SSH** before cloning.
-- Use **Python 3.10+** and **virtual environments** for Python projects.
-- **Docker** is optional depending on the project.
+```bash
+docker compose down
+```
 
 ---
 
-# 📎 Quick Links
+## 🌐 Application URLs
 
-- [Homebrew](https://brew.sh/)
-- [Git Downloads](https://git-scm.com/downloads)
-- [Python Downloads](https://www.python.org/downloads/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [GitHub SSH Setup Guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+Once the application is running:
+
+| Page | URL |
+|---|---|
+| Health Check | http://localhost:8000/health |
+| Swagger UI | http://localhost:8000/docs |
+| ReDoc | http://localhost:8000/redoc |
+
+---
+
+## 🔐 Authentication Flow
+
+### 🔸 Register User
+
+```
+POST /auth/register
+```
+
+### 🔸 Login
+
+```
+POST /auth/login
+```
+
+Successful login returns a JWT token:
+
+```json
+{
+  "access_token": "<token>",
+  "token_type": "bearer"
+}
+```
+
+Use this token via the **Authorize** button in Swagger UI.
+
+---
+
+## 🧮 Calculator Endpoints
+
+| Action | Endpoint |
+|---|---|
+| Create Calculation | POST `/calculations` |
+| List Calculations | GET `/calculations` |
+| Get Calculation | GET `/calculations/{id}` |
+| Update Calculation | PUT `/calculations/{id}` |
+| Delete Calculation | DELETE `/calculations/{id}` |
+
+---
+
+## 🧪 Running Tests
+
+### ▶️ Run all tests
+
+```bash
+pytest
+```
+
+---
+
+### ▶️ Run tests with coverage
+
+```bash
+pytest --cov=app --cov-report=term-missing
+```
+
+---
+
+### ▶️ Run Playwright E2E tests
+
+```bash
+pytest tests/e2e
+```
+
+---
+
+## 🎭 Playwright Testing
+
+Playwright is used for end-to-end browser testing.
+
+Features include:
+- Headless browser execution
+- UI interaction testing
+- Screenshot & video capture
+- CI/CD compatibility
+
+---
+
+## 🗄️ Database Initialization
+
+Database tables are automatically created on application startup:
+
+```python
+Base.metadata.create_all(bind=engine)
+```
+
+If tables are missing:
+
+```bash
+docker compose restart
+```
+
+---
+
+## 🛠️ Common Issues
+
+### ❌ Tables missing after running pytest
+- Pytest may drop test tables
+- Restart containers or re-run DB initialization
+
+### ❌ Redis connection error
+- Ensure Redis is running on port 6379
+
+### ❌ Authentication returns 500
+- Check Redis availability
+- Verify environment variables
+
+---
+
+## 📌 Future Improvements
+
+- Alembic database migrations
+- Role-based access control
+- Rate limiting
+- Frontend UI
+- CI/CD pipeline integration
+
+---
+
+## 👨‍💻 Author
+
+**Fahad Ali**  
+Computer Science  
+FastAPI • SQLAlchemy • Docker • Testing
